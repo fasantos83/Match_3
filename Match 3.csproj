@@ -78,20 +78,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Board.cs" />
-    <Compile Include="Assets\Scripts\Bomb.cs" />
-    <Compile Include="Assets\Scripts\Collectible.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\GamePiece.cs" />
-    <Compile Include="Assets\Scripts\MessageWindow.cs" />
-    <Compile Include="Assets\Scripts\ParticleManager.cs" />
-    <Compile Include="Assets\Scripts\ParticlePlayer.cs" />
-    <Compile Include="Assets\Scripts\RectTransformMover.cs" />
-    <Compile Include="Assets\Scripts\ScoreManager.cs" />
-    <Compile Include="Assets\Scripts\ScreenFader.cs" />
-    <Compile Include="Assets\Scripts\Singleton.cs" />
-    <Compile Include="Assets\Scripts\SoundManager.cs" />
-    <Compile Include="Assets\Scripts\Tile.cs" />
+    <Compile Include="Assets\Scripts\Board\Board.cs" />
+    <Compile Include="Assets\Scripts\Board\BoardDeadlock.cs" />
+    <Compile Include="Assets\Scripts\Board\BoardShuffler.cs" />
+    <Compile Include="Assets\Scripts\LevelGoal\CollectionGoal.cs" />
+    <Compile Include="Assets\Scripts\LevelGoal\LevelGoal.cs" />
+    <Compile Include="Assets\Scripts\LevelGoal\LevelGoalCollected.cs" />
+    <Compile Include="Assets\Scripts\LevelGoal\LevelGoalScored.cs" />
+    <Compile Include="Assets\Scripts\LevelGoal\LevelGoalTimed.cs" />
+    <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\ParticleManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\SoundManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Misc\CollectionGoalPanel.cs" />
+    <Compile Include="Assets\Scripts\Misc\MessageWindow.cs" />
+    <Compile Include="Assets\Scripts\Misc\ParticlePlayer.cs" />
+    <Compile Include="Assets\Scripts\Misc\RectTransformMover.cs" />
+    <Compile Include="Assets\Scripts\Misc\ScreenFader.cs" />
+    <Compile Include="Assets\Scripts\Misc\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Misc\Tile.cs" />
+    <Compile Include="Assets\Scripts\Misc\Timer.cs" />
+    <Compile Include="Assets\Scripts\Pieces\Bomb.cs" />
+    <Compile Include="Assets\Scripts\Pieces\Collectible.cs" />
+    <Compile Include="Assets\Scripts\Pieces\GamePiece.cs" />
+    <Compile Include="Assets\Scripts\Pieces\TimeBonus.cs" />
+    <Compile Include="Assets\Scripts\Score\ScoreMeter.cs" />
+    <Compile Include="Assets\Scripts\Score\ScoreStar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
