@@ -15,24 +15,27 @@ public abstract class LevelGoal : Singleton<LevelGoal> {
     public int movesLeft = 30;
     public int timeLeft = 60;
 
-    public LevelCounter levelCounter = LevelCounter.Moves;
-
     int maxTime;
+    LevelCounter levelCounter;
+    public LevelCounter LevelCounter {
+        get { return levelCounter; }
+        set { levelCounter = value; }
+    }
 
     public virtual void Start() {
         Init();
-
-        if(levelCounter == LevelCounter.Timer) {
-            maxTime = timeLeft;
-        }
     }
 
-    void Init() {
+    public void Init() {
         scoreStars = 0;
         for (int i = 1; i < scoreGoals.Length; i++) {
             if (scoreGoals[i] < scoreGoals[i - 1]) {
                 Debug.LogWarning("LEVELGOAL Setup score goals in increasing order!");
             }
+        }
+
+        if (LevelCounter == LevelCounter.Timer) {
+            maxTime = timeLeft;
         }
     }
 
@@ -41,11 +44,11 @@ public abstract class LevelGoal : Singleton<LevelGoal> {
 
         int i = 0;
         do {
-            if(score >= scoreGoals[i++]) {
+            if (score >= scoreGoals[i++]) {
                 scoreGoal = i;
             }
         } while (i < scoreGoals.Length);
-        
+
         return scoreGoal;
     }
 

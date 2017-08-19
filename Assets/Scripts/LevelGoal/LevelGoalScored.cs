@@ -1,7 +1,7 @@
 ﻿public class LevelGoalScored : LevelGoal {
 
     public override void Start() {
-        levelCounter = LevelCounter.Moves;
+        LevelCounter = LevelCounter.Moves;
         base.Start();
     }
 

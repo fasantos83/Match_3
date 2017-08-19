@@ -1,0 +1,26 @@
+{
+    "start": "start",
+	"ok": "ok",
+	"you win!": "you win!",
+	"you loose!": "you loose!",
+	"moves": "moves",
+    "time left": "time left",
+	"score goal\n{0}": "score goal\n{0}",
+	"level": "level",
+	"you scored\n{0}": "you scored\n{0}",
+	"out of time!": "out of time!",
+	"out of moves!": "out of moves!",
+	"{0} seconds": {
+		"zero": "no seconds",
+		"one": "one second",
+		"other": "{0} seconds"
+	},
+	"{0} moves": {
+		"zero": "no moves",
+		"one": "one moves",
+		"other": "{0} moves"
+	},
+	"level\ncomplete": "level\ncomplete",
+	"level\nfailed": "level\nfailed",
+	"next level": "next level"
+}

@@ -7,11 +7,18 @@ using System.Linq;
 [RequireComponent(typeof(BoardShuffler))]
 public class Board : MonoBehaviour {
 
+    [Header("Limits")]
     public int width;
     public int height;
 
     public int borderSize = 2;
 
+    [Header("Swap")]
+    public float swapTime = 0.5f;
+    public int fillYOffset = 10;
+    public float fillMoveTime = 0.5f;
+
+    [Header("Prefabs")]
     public GameObject tileNormalPrefab;
     public GameObject tileObstaclePrefab;
     public GameObject[] gamePiecePrefabs;
@@ -21,17 +28,15 @@ public class Board : MonoBehaviour {
     public GameObject rowBombPrefab;
     public GameObject colorBombPrefab;
 
+    [Header("Collectibles")]
     public int maxCollectibles = 3;
     public int collectibleCount = 0;
 
-    public float swapTime = 0.5f;
-    public int fillYOffset = 10;
-    public float fillMoveTime = 0.5f;
-
     [Range(0, 1)]
     public float chanceForCollectible = 0.1f;
-    public GameObject[] collectiblePrefabs;
 
+    [Header("Starting Pieces")]
+    public GameObject[] collectiblePrefabs;
     public StartingObject[] startingTiles;
     public StartingObject[] startingGamePieces;
 
@@ -66,11 +71,14 @@ public class Board : MonoBehaviour {
     }
 
     void Start() {
-        allTiles = new Tile[width, height];
-        allGamePieces = new GamePiece[width, height];
         particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
         boardDeadlock = GetComponent<BoardDeadlock>();
         boardShuffler = GetComponent<BoardShuffler>();
+    }
+
+    public void Init() {
+        allTiles = new Tile[width, height];
+        allGamePieces = new GamePiece[width, height];
     }
 
     public void SetupBoard() {

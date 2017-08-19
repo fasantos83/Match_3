@@ -6,7 +6,7 @@ public class LevelGoalTimed : LevelGoal {
 
 
     public override void Start() {
-        levelCounter = LevelCounter.Timer;
+        LevelCounter = LevelCounter.Timer;
         base.Start();
 
         if(UIManager.Instance.timer != null) {

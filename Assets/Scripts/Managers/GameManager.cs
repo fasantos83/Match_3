@@ -1,17 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
-//using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(LevelGoal))]
 public class GameManager : Singleton<GameManager> {
-
-    //public int movesLeft = 30;
-    //public int scoreGoal = 10000;
-
-    public Sprite loseIcon;
-    public Sprite winIcon;
-    public Sprite goalIcon;
 
     Board board;
 
@@ -19,7 +11,7 @@ public class GameManager : Singleton<GameManager> {
     public LevelGoal LevelGoal {
         get { return levelGoal; }
     }
-    
+
     LevelGoalCollected levelGoalCollected;
 
     bool isReadyToBegin = false;
@@ -34,21 +26,52 @@ public class GameManager : Singleton<GameManager> {
 
     public override void Awake() {
         base.Awake();
+        DontDestroyOnLoad(this.gameObject);
+
         board = FindObjectOfType<Board>().GetComponent<Board>();
         levelGoal = GetComponent<LevelGoal>();
         levelGoalCollected = GetComponent<LevelGoalCollected>();
     }
 
-    void Start() {
+    void InitLevel() {
+        InitLevelConfig();
+        SetupUI();
+        UpdateMovesUI();
+        StartCoroutine("ExecuteGameLoop");
+    }
+
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
+        InitLevel();
+    }
+
+    void OnEnable() {
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    void OnDisable() {
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    private void InitLevelConfig() {
+        Level currentLevel = LevelManager.Instance.CurrentLevel;
+        board.width = currentLevel.boardWidth;
+        board.height = currentLevel.boardHeight;
+        levelGoal.scoreGoals = currentLevel.scoreGoals;
+        levelGoal.movesLeft = currentLevel.moves;
+        levelGoal.timeLeft = currentLevel.time;
+    }
+
+    private void SetupUI() {
+        I18nManager.Instance.Init();
+
         Screen.SetResolution(540, 960, false);
 
         if (UIManager.Instance.scoreMeter != null) {
             UIManager.Instance.scoreMeter.SetupStars(levelGoal);
         }
 
-        Scene scene = SceneManager.GetActiveScene();
         if (UIManager.Instance.levelNameText != null) {
-            UIManager.Instance.levelNameText.text = scene.name;
+            UIManager.Instance.levelNameText.text = "level " + LevelManager.Instance.CurrentLevel.index;
         }
 
         if (levelGoalCollected != null) {
@@ -60,10 +83,6 @@ public class GameManager : Singleton<GameManager> {
 
         UIManager.Instance.EnableTimer(IsTimedLevel());
         UIManager.Instance.EnableMovesCounter(IsMovesLevel());
-
-        UpdateMovesUI();
-
-        StartCoroutine("ExecuteameLoop");
     }
 
     public void UpdateMoves() {
@@ -80,11 +99,11 @@ public class GameManager : Singleton<GameManager> {
     }
 
     public bool IsTimedLevel() {
-        return levelGoal != null && levelGoal.levelCounter == LevelCounter.Timer;
+        return levelGoal != null && levelGoal.LevelCounter == LevelCounter.Timer;
     }
 
     public bool IsMovesLevel() {
-        return levelGoal != null && levelGoal.levelCounter == LevelCounter.Moves;
+        return levelGoal != null && levelGoal.LevelCounter == LevelCounter.Moves;
     }
 
     public void BeginGame() {
@@ -95,7 +114,7 @@ public class GameManager : Singleton<GameManager> {
         isReadyToReload = true;
     }
 
-    IEnumerator ExecuteameLoop() {
+    IEnumerator ExecuteGameLoop() {
         yield return StartCoroutine(StartGameRoutine());
         yield return StartCoroutine(PlayGameRoutine());
         yield return StartCoroutine(WaitForBoardRoutine(0.5f));
@@ -105,7 +124,23 @@ public class GameManager : Singleton<GameManager> {
     IEnumerator StartGameRoutine() {
         if (UIManager.Instance.messageWindow != null) {
             UIManager.Instance.messageWindow.GetComponent<RectTransformMover>().MoveOn();
-            UIManager.Instance.messageWindow.ShowMessage(goalIcon, "score goal\n" + levelGoal.scoreGoals[0].ToString(), "start");
+            int maxGoal = levelGoal.scoreGoals.Length - 1;
+            UIManager.Instance.messageWindow.ShowScoreMessage(levelGoal.scoreGoals[maxGoal]);
+
+            if (levelGoal.LevelCounter == LevelCounter.Timer) {
+                UIManager.Instance.messageWindow.ShowTimedGoal(levelGoal.timeLeft);
+            } else if (levelGoal.LevelCounter == LevelCounter.Moves) {
+                UIManager.Instance.messageWindow.ShowMovesGoal(levelGoal.movesLeft);
+            }
+
+            if (levelGoalCollected != null) {
+                UIManager.Instance.messageWindow.ShowCollectionGoal(true);
+
+                GameObject goalLayout = UIManager.Instance.messageWindow.collectionGoalLayout;
+                if (goalLayout != null) {
+                    UIManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.collectionGoals, goalLayout, 70);
+                }
+            }
         }
 
         while (!isReadyToBegin) {
@@ -119,6 +154,7 @@ public class GameManager : Singleton<GameManager> {
         yield return new WaitForSeconds(1f);
 
         if (board != null) {
+            board.Init();
             board.SetupBoard();
         }
     }
@@ -160,19 +196,9 @@ public class GameManager : Singleton<GameManager> {
         isReadyToReload = false;
 
         if (isWinner) {
-            if (UIManager.Instance.messageWindow != null) {
-                UIManager.Instance.messageWindow.GetComponent<RectTransformMover>().MoveOn();
-                UIManager.Instance.messageWindow.ShowMessage(winIcon, "you win!", "ok");
-            }
-
-            SoundManager.Instance.PlayWinSound();
+            ShowWinScreen();
         } else {
-            if (UIManager.Instance.messageWindow != null) {
-                UIManager.Instance.messageWindow.GetComponent<RectTransformMover>().MoveOn();
-                UIManager.Instance.messageWindow.ShowMessage(loseIcon, "you lose!", "ok");
-            }
-
-            SoundManager.Instance.PlayLoseSound();
+            ShowLoseScreen();
         }
 
         yield return new WaitForSeconds(1f);
@@ -186,6 +212,39 @@ public class GameManager : Singleton<GameManager> {
         yield return new WaitForSeconds(1f);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    void ShowWinScreen() {
+        if (UIManager.Instance.messageWindow != null) {
+            UIManager.Instance.messageWindow.GetComponent<RectTransformMover>().MoveOn();
+            UIManager.Instance.messageWindow.ShowWinMessage();
+
+            UIManager.Instance.messageWindow.ShowCollectionGoal(false);
+            string scoreStr = I18nManager.Instance.getText("you scored\n{0}", ScoreManager.Instance.CurrentScore);
+            UIManager.Instance.messageWindow.ShowGoalCaption(scoreStr, 0, 50);
+            UIManager.Instance.messageWindow.ShowGoalImage(UIManager.Instance.messageWindow.goalCompleteIcon);
+        }
+
+        SoundManager.Instance.PlayWinSound();
+    }
+
+    void ShowLoseScreen() {
+        if (UIManager.Instance.messageWindow != null) {
+            UIManager.Instance.messageWindow.GetComponent<RectTransformMover>().MoveOn();
+            UIManager.Instance.messageWindow.ShowLoseMessage();
+
+            UIManager.Instance.messageWindow.ShowCollectionGoal(false);
+            string caption = "";
+            if (levelGoal.LevelCounter == LevelCounter.Timer) {
+                caption = I18nManager.Instance.getText("out of time!");
+            } else if (levelGoal.LevelCounter == LevelCounter.Moves) {
+                caption = I18nManager.Instance.getText("out of moves!");
+            }
+            UIManager.Instance.messageWindow.ShowGoalCaption(caption, 0, 50);
+            UIManager.Instance.messageWindow.ShowGoalImage(UIManager.Instance.messageWindow.goalFailIcon);
+        }
+
+        SoundManager.Instance.PlayLoseSound();
     }
 
     public void ScorePoints(GamePiece piece, int multiplier = 1, int bonus = 0) {
@@ -210,8 +269,31 @@ public class GameManager : Singleton<GameManager> {
     }
 
     public void UpdateCollectionGoals(GamePiece pieceToCheck) {
-        if (pieceToCheck != null) {
+        if (levelGoalCollected != null && pieceToCheck != null) {
             levelGoalCollected.UpdateGoals(pieceToCheck);
         }
+    }
+
+    public void ChangeLanguage() {
+        Locale locale = I18nManager.Instance.locale;
+        Debug.Log("ChangeLanguage");
+        switch (locale) {
+            case Locale.enUS:
+                Debug.Log("to BR");
+                I18nManager.Instance.SwitchLanguage(Locale.ptBR);
+                break;
+            case Locale.ptBR:
+                Debug.Log("to EN");
+                I18nManager.Instance.SwitchLanguage(Locale.enUS);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void LoadNextLevel() {
+        string nextLevel = LevelManager.Instance.SetupNextLevel();
+        MenuManager.Instance.LoadLevel(nextLevel);
+        Destroy(gameObject);
     }
 }

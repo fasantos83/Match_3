@@ -1,0 +1,26 @@
+{
+	"levels":[
+		{
+			"index":1,
+			"sceneName":"LevelScored",
+			"boardWidth":8,
+			"boardHeight":8,
+			"scoreGoals":[500, 1000, 1500],
+			"moves":30,
+			"time":60,
+			"nextLevelIndex":2,
+			"nextSceneName":"LevelScored"
+		},
+		{
+			"index":2,
+			"sceneName":"LevelTimed",
+			"scoreGoals":[1000, 2000, 3000],
+			"boardWidth":8,
+			"boardHeight":8,
+			"moves":30,
+			"time":65,
+			"nextLevelIndex":2,
+			"nextSceneName":"LevelSelect"
+		}
+	]
+}

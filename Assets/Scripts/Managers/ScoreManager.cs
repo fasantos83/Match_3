@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class ScoreManager : Singleton<ScoreManager> {
 
@@ -15,7 +13,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     int counterValue = 0;
     int increment = 5;
 
-    public Text scoreText;
+    public TextMeshProUGUI scoreText;
 
     void Start() {
         UpdateScoreText(currentScore);

@@ -1,0 +1,26 @@
+{
+    "start": "começar",
+	"ok": "ok",
+	"you win!": "você venceu!",
+	"you loose!": "você perdeu!",
+	"moves": "jogadas",
+    "time left": "segundos",
+	"score goal\n{0}": "pontos\n{0}",
+	"level": "level",
+	"you scored\n{0}": "você pontuou\n{0}",
+	"out of time!": "acabou \no tempo!",
+	"out of moves!": "acabaram \nos movimentos!",
+	"{0} seconds": {
+		"zero": "sem tempo",
+		"one": "um segundo",
+		"other": "{0} segundos"
+	},
+	"{0} moves": {
+		"zero": "sem jogadas",
+		"one": "uma jogada",
+		"other": "{0} jogadas"
+	},
+	"level\ncomplete": "completou o\nlevel",
+	"level\nfailed": "falhou no\nlevel",
+	"next level": "próximo"
+}

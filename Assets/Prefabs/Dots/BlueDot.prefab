@@ -132,8 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96836f7a075413b498fb8338ed6c866d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusValue: 3
-  chanceForBonus: 1
+  bonusValue: 0
+  chanceForBonus: 0
   bonusGlow: {fileID: 1246552470297684}
   bonusMaterials:
   - {fileID: 2100000, guid: 37a70e431842c4da8bd54b57f79a6a15, type: 2}

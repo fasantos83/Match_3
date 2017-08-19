@@ -43,7 +43,7 @@ public class LevelGoalCollected : LevelGoal {
             isGameOver = ScoreManager.Instance.CurrentScore >= maxScore;
         }
 
-        if(levelCounter == LevelCounter.Timer) {
+        if(LevelCounter == LevelCounter.Timer) {
             isGameOver = isGameOver || timeLeft <= 0;
         } else {
             isGameOver = isGameOver || movesLeft <= 0;

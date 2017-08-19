@@ -81,9 +81,9 @@ public class BoardDeadlock : MonoBehaviour {
             }
 
             if (matches.Count >= listLength) {
-                string rowOrColStr = checkRow ? "row" : "column";
-                Debug.Log("====== AVAILABLE MOVE ======");
-                Debug.Log("Move " + matches[0].matchValue + " piece to " + unmatchedPiece.xIndex + "," + unmatchedPiece.yIndex + " to from matching " + rowOrColStr);
+                //string rowOrColStr = checkRow ? "row" : "column";
+                //Debug.Log("====== AVAILABLE MOVE ======");
+                //Debug.Log("Move " + matches[0].matchValue + " piece to " + unmatchedPiece.xIndex + "," + unmatchedPiece.yIndex + " to from matching " + rowOrColStr);
 
                 hasMoveAt = true;
             }
