@@ -17321,10 +17321,14 @@ MonoBehaviour:
     type: 2}
   gamePiecePrefabs:
   - {fileID: 1736135356328956, guid: 001b77424f4dd22489b5532b2253167b, type: 2}
+  - {fileID: 1624079473255532, guid: 38a56b815a8998a42b51e832b0c24cfd, type: 2}
   - {fileID: 1185048419126602, guid: b7319ebf9b4db3e4a822d4c09e048257, type: 2}
   - {fileID: 1251587455246366, guid: 8689cd3691928894793cf16704009447, type: 2}
+  - {fileID: 1018744990724844, guid: dbef3c099307ca440881a392511046e5, type: 2}
   - {fileID: 1684776873238222, guid: acb692aa7b08fd84f9dbdab207505091, type: 2}
+  - {fileID: 1457047133483462, guid: e6285bfc1d4b34e40be1f5ca92552841, type: 2}
   - {fileID: 1585285691359334, guid: 13799b420157a484a98adbc18eb611cc, type: 2}
+  allowedGamePiecePrefabs: []
   adjacentBombPrefab: {fileID: 1687461667937904, guid: e28af92a6a40a194e9b6455662da02bf,
     type: 2}
   columnBombPrefab: {fileID: 1187974797604958, guid: 4345d17a6bd3b0248addd80dc12842c8,

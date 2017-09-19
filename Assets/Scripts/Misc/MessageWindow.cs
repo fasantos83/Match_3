@@ -35,6 +35,7 @@ public class MessageWindow : MonoBehaviour {
         start,
         nextLevel
     }
+
     public void ShowMessage(Sprite sprite = null, string message = "", string buttonMsg = "start", ButtonAction action = ButtonAction.start) {
         if(messageImage != null) {
             messageImage.sprite = sprite;

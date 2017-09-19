@@ -85,28 +85,15 @@ public class LevelManager : Singleton<LevelManager> {
     }
 
     public string SetupNextLevel() {
-        string nextLevel = currentLevel.nextSceneName;
-        currentLevel = GetLevel(currentLevel.nextLevelIndex);
-        return nextLevel;
+        string nextScene = "LevelSelect";
+        int nextLevelIndex = currentLevel.nextLevelIndex;
+        if(nextLevelIndex != -1) {
+            currentLevel = GetLevel(nextLevelIndex);
+            nextScene = currentLevel.sceneName;
+        }
+        return nextScene;
     }
 }
 
-[System.Serializable]
-public class LevelList {
-    public Level[] levels;
-}
-
-[System.Serializable]
-public class Level {
-    public int index;
-    public string sceneName;
-    public int boardWidth;
-    public int boardHeight;
-    public int[] scoreGoals;
-    public int moves;
-    public int time;
-    public int nextLevelIndex;
-    public string nextSceneName;
-}
 
 

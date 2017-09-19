@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class LevelGoalCollected : LevelGoal {
+﻿public class LevelGoalCollected : LevelGoal {
 
     public CollectionGoal[] collectionGoals;
 
@@ -43,7 +38,7 @@ public class LevelGoalCollected : LevelGoal {
             isGameOver = ScoreManager.Instance.CurrentScore >= maxScore;
         }
 
-        if(LevelCounter == LevelCounter.Timer) {
+        if(levelCounter == LevelCounter.Timer) {
             isGameOver = isGameOver || timeLeft <= 0;
         } else {
             isGameOver = isGameOver || movesLeft <= 0;

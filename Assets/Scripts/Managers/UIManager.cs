@@ -6,18 +6,29 @@ using Mgl;
 
 public class UIManager : Singleton<UIManager> {
 
+    [Header("Collection")]
     public GameObject collectionGoalLayout;
     public int collectionGoalBaseWidth = 125;
 
+    [Header("Texts")]
     public Text levelNameText;
     public Text movesLeftText;
-    
-    public ScreenFader screenFader;
-    public MessageWindow messageWindow;
-    public ScoreMeter scoreMeter;
 
+    [Header("Screen Fader")]
+    public ScreenFader screenFader;
+
+    [Header("Panels")]
+    public MessageWindow messageWindow;
+    public PausePanel pausePanel;
+
+    [Header("Score")]
+    public ScoreMeter scoreMeter;
     public GameObject movesCounter;
     public Timer timer;
+
+    [Header("Settings")]
+    public Slider musicVolumeSlider;
+    public Slider fxVolumeSlider;
 
     public override void Awake() {
         base.Awake();
@@ -29,6 +40,8 @@ public class UIManager : Singleton<UIManager> {
         if (screenFader != null) {
             screenFader.gameObject.SetActive(true);
         }
+
+        UpdateSettingsUI();
     }
 
     public void SetupCollectionGoalLayout(CollectionGoal[] collectionGoals, GameObject goalLayout, int spacingWidth) {
@@ -90,6 +103,13 @@ public class UIManager : Singleton<UIManager> {
     public void EnableCollectionGoalLayout(bool state) {
         if (collectionGoalLayout != null) {
             collectionGoalLayout.gameObject.SetActive(state);
+        }
+    }
+
+    public void UpdateSettingsUI() {
+        if(musicVolumeSlider != null) {
+            musicVolumeSlider.value = SoundManager.Instance.musicVolume;
+            fxVolumeSlider.value = SoundManager.Instance.fxVolume;
         }
     }
 

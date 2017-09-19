@@ -6,21 +6,147 @@
 			"boardWidth":8,
 			"boardHeight":8,
 			"scoreGoals":[500, 1000, 1500],
+			"pieces":[true, false, true, false, false, false, true, true],
+			"collectibles":[],
+			"startingObjects":[],
 			"moves":30,
 			"time":60,
-			"nextLevelIndex":2,
-			"nextSceneName":"LevelScored"
+			"nextLevelIndex":2
 		},
 		{
 			"index":2,
-			"sceneName":"LevelTimed",
-			"scoreGoals":[1000, 2000, 3000],
+			"sceneName":"LevelScored",
 			"boardWidth":8,
 			"boardHeight":8,
+			"scoreGoals":[1000, 2000, 3000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
 			"moves":30,
-			"time":65,
-			"nextLevelIndex":2,
-			"nextSceneName":"LevelSelect"
+			"time":60,
+			"nextLevelIndex":3
+		},
+		{
+			"index":3,
+			"sceneName":"LevelScored",
+			"boardWidth":7,
+			"boardHeight":7,
+			"scoreGoals":[1500, 3000, 4500],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":30,
+			"time":60,
+			"nextLevelIndex":4
+		},
+		{
+			"index":4,
+			"sceneName":"LevelScored",
+			"boardWidth":8,
+			"boardHeight":8,
+			"scoreGoals":[2000, 4000, 8000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":30,
+			"time":60,
+			"nextLevelIndex":5
+		},
+		{
+			"index":5,
+			"sceneName":"LevelScored",
+			"boardWidth":5,
+			"boardHeight":5,
+			"scoreGoals":[1000, 2000, 3000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":30,
+			"time":60,
+			"nextLevelIndex":6
+		},
+		{
+			"index":6,
+			"sceneName":"LevelTimed",
+			"boardWidth":8,
+			"boardHeight":8,
+			"scoreGoals":[2000, 3000, 4000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":30,
+			"time":60,
+			"nextLevelIndex":7
+		},
+		{
+			"index":7,
+			"sceneName":"LevelTimed",
+			"boardWidth":7,
+			"boardHeight":7,
+			"scoreGoals":[2000, 3000, 4000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":30,
+			"time":60,
+			"nextLevelIndex":8
+		},
+		{
+			"index":8,
+			"sceneName":"LevelTimed",
+			"boardWidth":8,
+			"boardHeight":8,
+			"scoreGoals":[5000, 10000, 15000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":30,
+			"time":90,
+			"nextLevelIndex":9
+		},
+		{
+			"index":9,
+			"sceneName":"LevelScored",
+			"boardWidth":8,
+			"boardHeight":8,
+			"scoreGoals":[5000, 10000, 15000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":30,
+			"time":60,
+			"nextLevelIndex":10
+		},
+		{
+			"index":10,
+			"sceneName":"LevelTimed",
+			"boardWidth":6,
+			"boardHeight":6,
+			"scoreGoals":[5000, 10000, 15000],
+			"pieces":[true, false, true, false, true, true, false, true],
+			"collectibles":[true, true],
+			"startingObjects":[
+				{"enumIndex":1, "x":0, "y":0, "z":0}
+			],
+			"moves":40,
+			"time":120,
+			"nextLevelIndex":-1
 		}
 	]
 }

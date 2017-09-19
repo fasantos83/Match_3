@@ -1,10 +1,10 @@
 ﻿public class LevelGoalScored : LevelGoal {
 
-    public override void Start() {
-        LevelCounter = LevelCounter.Moves;
-        base.Start();
+    public override void Awake() {
+        levelCounter = LevelCounter.Moves;
+        base.Awake();
     }
-
+    
     public override bool IsWinner() {
         return ScoreManager.Instance.CurrentScore >= scoreGoals[0];
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum LevelCounter {
@@ -15,12 +14,8 @@ public abstract class LevelGoal : Singleton<LevelGoal> {
     public int movesLeft = 30;
     public int timeLeft = 60;
 
+    public LevelCounter levelCounter;
     int maxTime;
-    LevelCounter levelCounter;
-    public LevelCounter LevelCounter {
-        get { return levelCounter; }
-        set { levelCounter = value; }
-    }
 
     public virtual void Start() {
         Init();
@@ -34,7 +29,7 @@ public abstract class LevelGoal : Singleton<LevelGoal> {
             }
         }
 
-        if (LevelCounter == LevelCounter.Timer) {
+        if (levelCounter == LevelCounter.Timer) {
             maxTime = timeLeft;
         }
     }

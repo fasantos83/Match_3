@@ -18,7 +18,14 @@ public class SoundManager : Singleton<SoundManager> {
     public float lowPitch = 0.95f;
     public float highPitch = 1.05f;
 
+    public override void Awake() {
+        base.Awake();
+        DontDestroyOnLoad(this.gameObject);
+        Debug.Log("SoundManager Awake");
+    }
+
     void Start() {
+        Debug.Log("SoundManager Start");
         PlayMusic();
     }
 
@@ -58,6 +65,7 @@ public class SoundManager : Singleton<SoundManager> {
             int randomIndex = Random.Range(0, clips.Length);
             if(clips[randomIndex] != null) {
                 source = PlayClipAtPoint(clips[randomIndex], position, volume, loop);
+                source.transform.parent = this.transform;
             }
         }
 

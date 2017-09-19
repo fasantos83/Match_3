@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>2017.1.0p4</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -84,6 +86,10 @@
     <Compile Include="Assets\Scripts\Board\Board.cs" />
     <Compile Include="Assets\Scripts\Board\BoardDeadlock.cs" />
     <Compile Include="Assets\Scripts\Board\BoardShuffler.cs" />
+    <Compile Include="Assets\Scripts\Data\Level.cs" />
+    <Compile Include="Assets\Scripts\Data\LevelList.cs" />
+    <Compile Include="Assets\Scripts\Data\StartingObject.cs" />
+    <Compile Include="Assets\Scripts\Data\StartingObjectEnum.cs" />
     <Compile Include="Assets\Scripts\I18nUnity\Lib\SimpleJSON.cs" />
     <Compile Include="Assets\Scripts\I18nUnity\Mgl\I18n.cs" />
     <Compile Include="Assets\Scripts\LevelGoal\CollectionGoal.cs" />
@@ -106,6 +112,7 @@
     <Compile Include="Assets\Scripts\Misc\ParticlePlayer.cs" />
     <Compile Include="Assets\Scripts\Misc\RectTransformMover.cs" />
     <Compile Include="Assets\Scripts\Misc\ScreenFader.cs" />
+    <Compile Include="Assets\Scripts\Misc\PausePanel.cs" />
     <Compile Include="Assets\Scripts\Misc\Singleton.cs" />
     <Compile Include="Assets\Scripts\Misc\Tile.cs" />
     <Compile Include="Assets\Scripts\Misc\Timer.cs" />

@@ -23,6 +23,10 @@ public class GameManager : Singleton<GameManager> {
 
     bool isWinner = false;
     bool isReadyToReload = false;
+    bool isPaused = false;
+    public bool IsPaused {
+        get { return isPaused; }
+    }
 
     public override void Awake() {
         base.Awake();
@@ -59,6 +63,9 @@ public class GameManager : Singleton<GameManager> {
         levelGoal.scoreGoals = currentLevel.scoreGoals;
         levelGoal.movesLeft = currentLevel.moves;
         levelGoal.timeLeft = currentLevel.time;
+        board.SetupAllowedGamePieces(currentLevel.pieces);
+        board.SetupAllowedCollectibles(currentLevel.collectibles);
+        board.SetupStartingObjects(currentLevel.startingObjects);
     }
 
     private void SetupUI() {
@@ -99,11 +106,11 @@ public class GameManager : Singleton<GameManager> {
     }
 
     public bool IsTimedLevel() {
-        return levelGoal != null && levelGoal.LevelCounter == LevelCounter.Timer;
+        return levelGoal != null && levelGoal.levelCounter == LevelCounter.Timer;
     }
 
     public bool IsMovesLevel() {
-        return levelGoal != null && levelGoal.LevelCounter == LevelCounter.Moves;
+        return levelGoal != null && levelGoal.levelCounter == LevelCounter.Moves;
     }
 
     public void BeginGame() {
@@ -114,6 +121,10 @@ public class GameManager : Singleton<GameManager> {
         isReadyToReload = true;
     }
 
+    public void PauseGame() {
+        isPaused = !isPaused;
+    }
+    
     IEnumerator ExecuteGameLoop() {
         yield return StartCoroutine(StartGameRoutine());
         yield return StartCoroutine(PlayGameRoutine());
@@ -122,26 +133,7 @@ public class GameManager : Singleton<GameManager> {
     }
 
     IEnumerator StartGameRoutine() {
-        if (UIManager.Instance.messageWindow != null) {
-            UIManager.Instance.messageWindow.GetComponent<RectTransformMover>().MoveOn();
-            int maxGoal = levelGoal.scoreGoals.Length - 1;
-            UIManager.Instance.messageWindow.ShowScoreMessage(levelGoal.scoreGoals[maxGoal]);
-
-            if (levelGoal.LevelCounter == LevelCounter.Timer) {
-                UIManager.Instance.messageWindow.ShowTimedGoal(levelGoal.timeLeft);
-            } else if (levelGoal.LevelCounter == LevelCounter.Moves) {
-                UIManager.Instance.messageWindow.ShowMovesGoal(levelGoal.movesLeft);
-            }
-
-            if (levelGoalCollected != null) {
-                UIManager.Instance.messageWindow.ShowCollectionGoal(true);
-
-                GameObject goalLayout = UIManager.Instance.messageWindow.collectionGoalLayout;
-                if (goalLayout != null) {
-                    UIManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.collectionGoals, goalLayout, 70);
-                }
-            }
-        }
+        ShowScoreGoalMessageWindow();
 
         while (!isReadyToBegin) {
             yield return null;
@@ -159,16 +151,56 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
+    void ShowScoreGoalMessageWindow() {
+        if (UIManager.Instance.messageWindow != null) {
+            UIManager.Instance.messageWindow.GetComponent<RectTransformMover>().MoveOn();
+            int maxGoal = levelGoal.scoreGoals.Length - 1;
+            UIManager.Instance.messageWindow.ShowScoreMessage(levelGoal.scoreGoals[maxGoal]);
+
+            if (levelGoal.levelCounter == LevelCounter.Timer) {
+                UIManager.Instance.messageWindow.ShowTimedGoal(levelGoal.timeLeft);
+            } else if (levelGoal.levelCounter == LevelCounter.Moves) {
+                UIManager.Instance.messageWindow.ShowMovesGoal(levelGoal.movesLeft);
+            }
+
+            if (levelGoalCollected != null) {
+                UIManager.Instance.messageWindow.ShowCollectionGoal(true);
+
+                GameObject goalLayout = UIManager.Instance.messageWindow.collectionGoalLayout;
+                if (goalLayout != null) {
+                    UIManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.collectionGoals, goalLayout, 70);
+                }
+            }
+        }
+    }
+
     IEnumerator PlayGameRoutine() {
         if (IsTimedLevel()) {
             levelGoal.StartCountdown();
         }
 
         while (!isGameOver) {
+            if (isPaused) {
+                yield return StartCoroutine(SettingsMenuRoutine());
+            }
             isGameOver = levelGoal.IsGameOver();
             isWinner = levelGoal.IsWinner();
 
             yield return null;
+        }
+    }
+
+    IEnumerator SettingsMenuRoutine() {
+        if(UIManager.Instance.pausePanel != null) {
+            UIManager.Instance.pausePanel.GetComponent<RectTransformMover>().MoveOn();
+        }
+
+        while (isPaused) {
+            yield return null;
+        }
+
+        if (UIManager.Instance.pausePanel != null) {
+            UIManager.Instance.pausePanel.GetComponent<RectTransformMover>().MoveOff();
         }
     }
 
@@ -235,9 +267,9 @@ public class GameManager : Singleton<GameManager> {
 
             UIManager.Instance.messageWindow.ShowCollectionGoal(false);
             string caption = "";
-            if (levelGoal.LevelCounter == LevelCounter.Timer) {
+            if (levelGoal.levelCounter == LevelCounter.Timer) {
                 caption = I18nManager.Instance.getText("out of time!");
-            } else if (levelGoal.LevelCounter == LevelCounter.Moves) {
+            } else if (levelGoal.levelCounter == LevelCounter.Moves) {
                 caption = I18nManager.Instance.getText("out of moves!");
             }
             UIManager.Instance.messageWindow.ShowGoalCaption(caption, 0, 50);
@@ -276,7 +308,6 @@ public class GameManager : Singleton<GameManager> {
 
     public void ChangeLanguage() {
         Locale locale = I18nManager.Instance.locale;
-        Debug.Log("ChangeLanguage");
         switch (locale) {
             case Locale.enUS:
                 Debug.Log("to BR");
@@ -293,7 +324,15 @@ public class GameManager : Singleton<GameManager> {
 
     public void LoadNextLevel() {
         string nextLevel = LevelManager.Instance.SetupNextLevel();
-        MenuManager.Instance.LoadLevel(nextLevel);
+        LoadLevel(nextLevel);
+    }
+
+    public void LoadLevel(string levelName) {
+        MenuManager.Instance.LoadLevel(levelName);
         Destroy(gameObject);
+    }
+
+    public void QuitApplication() {
+        MenuManager.Instance.QuitApplication();
     }
 }
